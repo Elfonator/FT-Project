@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "Watchmen",
+    "year": 2023,
+    "publisher": "DC Comics",
+    "author": "Alan Moore",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/7286772.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Before Watchmen: Comedian/Rorschach",
+    "year": 2013,
+    "publisher": "DC Comics",
+    "author": "Brian Azzarello",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/1426940.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Before Watchmen: Nite Owl/Dr. Manhattan",
+    "year": 2012,
+    "publisher": "DC Comics",
+    "author": "J. Michael Straczynski",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/1426880.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Before Watchmen: Minutemen/Silk Spectre",
+    "year": 2014,
+    "publisher": "DC Comics",
+    "author": "Darwyn Cooke",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/1411899.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Before Watchmen: Ozymandias/Crimson Corsair",
+    "year": 2015,
+    "publisher": "DC Comics",
+    "author": "Len Wein/John Higgins",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/1411903.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Infinity War",
+    "year": 2006,
+    "publisher": "Marvel",
+    "author": "Jim Starlin",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/1109301.jpg"
+  },
+  {
+    "title": "White Lama",
+    "year": 2014,
+    "publisher": "Humanoids Publishing",
+    "author": "Alexandro Jodorowsky",
+    "imageUrl": "https://d1466nnw0ex81e.cloudfront.net/n_iv/600/1946210.jpg"
+  }
+]
