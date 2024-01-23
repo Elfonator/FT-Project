@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ComicsView from "@/views/ComicsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,12 @@ const router = createRouter({
       name: "contact",
       component: () => import("@/views/ContactView.vue"),
     },
+    {
+      path:"/details/:id",
+      name: "details",
+      component: () => import("@/views/DetailsView.vue"),
+      props: (route) => ({ id: Number(route.params.id) })
+    }
   ]
 })
 

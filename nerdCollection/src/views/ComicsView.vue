@@ -50,7 +50,6 @@ export default defineComponent({
         console.error('Comics not found.');
       }
     },
-
     saveEditedComics() {
       //Validate the edited data
       if (this.editedComics.title && this.editedComics.author) {
@@ -74,6 +73,9 @@ export default defineComponent({
       this.newComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
       this.editedComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
     },
+    goToDetails(id: number) {
+      this.$router.push({name: 'details', params: {id}});
+    }
   }
 });
 </script>
@@ -105,7 +107,7 @@ export default defineComponent({
     <v-list class="overflow-hidden" >
       <v-list-item v-if="comics.length">
         <!-- Use v-row to create  each comics -->
-        <v-row v-for="comicsItem in comics" :key="comicsItem.id" >
+        <v-row v-for="comicsItem in comics" :key="comicsItem.id" @click="goToDetails(comicsItem.id)">
           <v-col cols="1" class="align-center justify-center">
             <img :src="comicsItem.imageUrl" alt="Comic Image" class="mr-2" height="80px"/>
           </v-col>
@@ -125,6 +127,7 @@ export default defineComponent({
             <v-btn color="yellow" @click="editComics(comicsItem.id)">Edit</v-btn>
             <v-btn color="red" @click="deleteComics(comicsItem.id)">Delete</v-btn>
           </v-col>
+          <v-divider class="mx-4"></v-divider>
         </v-row>
 
         <!-- Edit comics dialog-->
