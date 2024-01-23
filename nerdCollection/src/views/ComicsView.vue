@@ -1,16 +1,22 @@
 <script lang="ts">
 import {defineComponent} from "vue";
+import Banner from '@/components/BannerComponent.vue'
+import catalogImage from "@/assets/catalog.png"
 import { useComicsStore} from '@/stores/comicsStore';
 import type {Comics} from "@/interfaces/types";
 
 export default defineComponent({
   data() {
     return {
+      imagePath: catalogImage,
       addComicsDialog: false,
       newComics: { id: 0, title: '', year: 0, publisher:'', author: '', imageUrl:'' } as Comics,
       editComicsDialog: false,
       editedComics: { id: 0, title: '', year: 0, publisher:'', author: '', imageUrl:'' } as Comics,
     };
+  },
+  components:{
+    Banner,
   },
   computed: {
     comics(): Comics[] {
@@ -73,73 +79,77 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-container>
-    <v-btn @click="addComicsDialog = true">Add Comics</v-btn>
-
+  <Banner :imagePath="imagePath"></Banner>
+  <v-container fluid style="position: relative; top:230px; ">
+    <v-btn color="green" @click="addComicsDialog = true">Add Comics</v-btn>
+    <v-spacer></v-spacer>
     <!-- Add comics dialog -->
     <v-dialog v-model="addComicsDialog">
       <v-card>
-        <v-card-title>Add Comic</v-card-title>
+        <v-card-title>Add Comics</v-card-title>
         <v-card-text>
-          <!-- form inputs here -->
+          <v-text-field v-model="newComics.title" label="Title"></v-text-field>
+          <v-text-field v-model="newComics.year" label="Year"></v-text-field>
+          <v-text-field v-model="newComics.publisher" label="Publisher"></v-text-field>
+          <v-text-field v-model="newComics.author" label="Author"></v-text-field>
+          <v-text-field v-model="newComics.imageUrl" label="ImageURL"></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="addComics">Add</v-btn>
+          <v-btn color="green" @click="addComics">Add</v-btn>
           <v-btn @click="addComicsDialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <!-- Display comics -->
-    <v-list>
-      <v-list-item-group v-if="comics.length">
-        <!-- Use v-row to create a horizontal row for each comics -->
-        <v-row v-for="comicsItem in comics" :key="comicsItem.id" class="mb-2">
-          <!-- Image column -->
-          <v-col>
-            <img :src="comicsItem.imageUrl" alt="Comic Image" class="mr-2" height="60px"/>
+    <v-card>
+    <v-list class="overflow-hidden" >
+      <v-list-item v-if="comics.length">
+        <!-- Use v-row to create  each comics -->
+        <v-row v-for="comicsItem in comics" :key="comicsItem.id" >
+          <v-col cols="1" class="align-center justify-center">
+            <img :src="comicsItem.imageUrl" alt="Comic Image" class="mr-2" height="80px"/>
           </v-col>
-          <!-- Title column -->
-          <v-col>
-            <div>{{ comicsItem.title }}</div>
+          <v-col cols="3" class="d-flex align-center justify-right" style="font-weight: bold">
+            {{ comicsItem.title }}
           </v-col>
-          <!-- Year column -->
-          <v-col>
-            <div>{{ comicsItem.year }}</div>
+          <v-col class="d-flex align-center justify-right">
+            {{ comicsItem.year }}
           </v-col>
-          <!-- Publisher column -->
-          <v-col>
-            <div>{{ comicsItem.publisher }}</div>
+          <v-col class="d-flex align-center justify-right">
+            {{ comicsItem.publisher }}
+          </v-col >
+          <v-col class="d-flex align-center justify-right">
+            {{ comicsItem.author }}
           </v-col>
-          <!-- Author column -->
-          <v-col>
-            <div>{{ comicsItem.author }}</div>
-          </v-col>
-          <!-- Action column -->
-          <v-col>
-            <v-btn @click="editComics(comicsItem.id)">Edit</v-btn>
-            <v-dialog v-model="editComicsDialog" max-width="500px">
-              <v-card>
-                <v-card-title>Edit Comic</v-card-title>
-                <v-card-text>
-                  <v-text-field v-model="editedComics.title" label="Title"></v-text-field>
-                  <v-text-field v-model="editedComics.year" label="Year"></v-text-field>
-                  <v-text-field v-model="editedComics.publisher" label="Publisher"></v-text-field>
-                  <v-text-field v-model="editedComics.author" label="Author"></v-text-field>
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn @click="saveEditedComics">Save</v-btn>
-                  <v-btn @click="closeComicsDialog">Cancel</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <v-btn @click="deleteComics(comicsItem.id)">Delete</v-btn>
+          <v-col class="d-flex align-center justify-right">
+            <v-btn color="yellow" @click="editComics(comicsItem.id)">Edit</v-btn>
+            <v-btn color="red" @click="deleteComics(comicsItem.id)">Delete</v-btn>
           </v-col>
         </v-row>
-      </v-list-item-group>
+
+        <!-- Edit comics dialog-->
+        <v-dialog v-model="editComicsDialog" max-width="500px">
+          <v-card>
+            <v-card-title>Edit Comic</v-card-title>
+            <v-card-text>
+              <v-text-field v-model="editedComics.title" label="Title"></v-text-field>
+              <v-text-field v-model="editedComics.year" label="Year"></v-text-field>
+              <v-text-field v-model="editedComics.publisher" label="Publisher"></v-text-field>
+              <v-text-field v-model="editedComics.author" label="Author"></v-text-field>
+              <v-text-field v-model="editedComics.imageUrl" label="ImageURL"></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="green" @click="saveEditedComics">Save</v-btn>
+              <v-btn  @click="closeComicsDialog">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-list-item>
       <v-alert v-else>No comics available.</v-alert>
     </v-list>
+    </v-card>
   </v-container>
+  <RouterView />
 </template>
 
 

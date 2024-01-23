@@ -18,7 +18,4 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.bgApp {
-  background-color: ;
-}
 </style>
