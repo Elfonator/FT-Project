@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-sheet class="flex-1-1-100 align-center" style="position: absolute; top: 200px; height: 50px; width: 100%">
+  <v-sheet class="flex-1-1-100 align-center" style="position: absolute; top: 250px; height: 50px; width: 100%">
   <v-select
       v-model="computedSelectedPublisher"
       :items="publishers"

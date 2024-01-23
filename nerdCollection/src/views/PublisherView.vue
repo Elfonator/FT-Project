@@ -41,7 +41,7 @@ export default defineComponent({
 <template>
   <Banner :imagePath="imagePath" />
   <Dropdown />
-  <v-sheet class="flex-1-1-100 align-center" style="width: 100%; height:100%; position:absolute; top: 280px;">
+  <v-sheet class="flex-1-1-100 align-center" style="width: 100%; height:100%; position:absolute; top: 310px;">
     <v-list-item class="align-center">
       <v-sheet class="flex-1-1-100">
         <v-row align="center" justify="center">

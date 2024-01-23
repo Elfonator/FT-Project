@@ -21,6 +21,5 @@ export default defineComponent({
     <v-btn to="/catalog">Catalog<v-icon icon="mdi-view-list"></v-icon></v-btn>
     <v-btn to="/publisher">Publishers<v-icon icon="mdi-account-tie"></v-icon></v-btn>
     <v-btn to="/contact">Contact<v-icon icon="mdi-email"></v-icon></v-btn>
-    <v-btn to="/about">About<v-icon icon="mdi-information"></v-icon></v-btn>
   </v-app-bar>
 </template>
