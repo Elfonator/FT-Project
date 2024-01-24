@@ -107,11 +107,11 @@ export default defineComponent({
     <v-list class="overflow-hidden" >
       <v-list-item v-if="comics.length">
         <!-- Use v-row to create  each comics -->
-        <v-row v-for="comicsItem in comics" :key="comicsItem.id" @click="goToDetails(comicsItem.id)">
-          <v-col cols="1" class="align-center justify-center">
+        <v-row v-for="comicsItem in comics" :key="comicsItem.id">
+          <v-col cols="1" class="align-center justify-center" @click="goToDetails(comicsItem.id)">
             <img :src="comicsItem.imageUrl" alt="Comic Image" class="mr-2" height="80px"/>
           </v-col>
-          <v-col cols="3" class="d-flex align-center justify-right" style="font-weight: bold">
+          <v-col cols="3" class="d-flex align-center justify-right" style="font-weight: bold" @click="goToDetails(comicsItem.id)">
             {{ comicsItem.title }}
           </v-col>
           <v-col class="d-flex align-center justify-right">
@@ -143,7 +143,7 @@ export default defineComponent({
             </v-card-text>
             <v-card-actions>
               <v-btn color="green" @click="saveEditedComics">Save</v-btn>
-              <v-btn  @click="closeComicsDialog">Cancel</v-btn>
+              <v-btn @click="closeComicsDialog">Cancel</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

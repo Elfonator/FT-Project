@@ -1,7 +1,9 @@
 <script lang="ts">
+//Import the defineComponent function from Vue
 import {defineComponent} from "vue";
 export default defineComponent({
   name: 'Banner',
+  //Properties
   props: {
     imagePath: {
       type: String,

@@ -25,6 +25,7 @@ export const useComicsStore = defineStore({
     },
     actions: {
         addComics(newComics: Comics) {
+            newComics.id = Date.now();
             this.comics.push(newComics);
             if (!this.publishers.includes(newComics.publisher)) {
                 this.publishers.push(newComics.publisher);
