@@ -42,6 +42,12 @@ export default defineComponent({
       filteredComics,
     };
   },
+  methods: {
+    //Function to navigate to detail view of specific comics
+    goToDetails(id: number) {
+      this.$router.push({name: 'details', params: {id}});
+    }
+  }
 });
 </script>
 
@@ -55,15 +61,15 @@ export default defineComponent({
       <v-sheet class="flex-1-1-100">
         <v-row align="center" justify="center">
             <v-col
-                v-for="comic in filteredComics" :key="comic.id"
+                v-for="comics in filteredComics" :key="comics.id"
                 cols="auto"
             >
               <v-card
                   class="mx-auto"
                   width="200"
                   height="300"
-                  :image="comic.imageUrl"
-                  theme="dark"
+                  :image="comics.imageUrl"
+                  theme="dark" @click="goToDetails(comics.id)"
               >
               </v-card>
             </v-col>
