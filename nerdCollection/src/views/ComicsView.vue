@@ -86,7 +86,10 @@ export default defineComponent({
     goToDetails(id: number) {
       this.$router.push({name: 'details', params: {id}});
     }
-  }
+  },
+  created() {
+    useComicsStore().loadComics();
+  },
 });
 </script>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 //Importing necessary functions and components from Vue and external sources
-import {computed, defineComponent, onMounted} from 'vue';
+import {computed, defineComponent, onMounted, watch} from 'vue';
 import Banner from '@/components/BannerComponent.vue'
 import publisherImage from "@/assets/publisher.png"
 import Dropdown from "@/components/DropdownComponent.vue"
@@ -36,6 +36,12 @@ export default defineComponent({
     onMounted(() => {
       comicsStore.loadComics();
       console.log('Data loaded:', comicsStore.comics);
+    });
+    //Watch for changes in the comics array and update the filteredComics computed property
+    watch(() => comicsStore.comics, () => {
+      console.log('Comics array changed. Updating filteredComics.');
+      // Update the filteredComics computed property
+      filteredComics.value;
     });
    //Return properties to be used in the template
     return {
