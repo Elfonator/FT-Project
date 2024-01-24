@@ -1,4 +1,5 @@
 <script lang="ts">
+//Importing necessary functions and components from Vue and external sources
 import {defineComponent } from 'vue';
 import Banner from '@/components/BannerComponent.vue'
 import homeImage from "@/assets/home.png"
@@ -6,11 +7,14 @@ import Carousel from '@/components/CarouselComponent.vue'
 import DetailsView from "@/views/DetailsView.vue";
 
 export default defineComponent({
+  //Data function initializes the components data
   data() {
     return {
+      //Initial data property for the home image path
       imagePath: homeImage
     }
   },
+  //External component
   components: {
     DetailsView,
     Banner, Carousel
@@ -23,11 +27,9 @@ export default defineComponent({
   <v-divider class="mx-4 mb-1"></v-divider>
   <v-spacer></v-spacer>
   <Carousel />
-  <RouterView />
+
 </template>
 
 <style>
-.bg {
-  background-image: url("@/assets/banner-bg.jpg");
-}
+
 </style>

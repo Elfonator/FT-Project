@@ -9,12 +9,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- template for the footer -->
+  <!-- Template for the footer -->
   <v-footer app class="text-center">
     <v-container>
       <v-row>
         <v-col>
-          <!-- footer content -->
+          <!-- Footer content -->
           <p>&copy; 2024 Comicsarium Nerd Collection</p>
         </v-col>
       </v-row>

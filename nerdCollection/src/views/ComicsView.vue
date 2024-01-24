@@ -1,4 +1,5 @@
 <script lang="ts">
+//Importing necessary functions and components from Vue and external sources
 import {defineComponent} from "vue";
 import Banner from '@/components/BannerComponent.vue'
 import catalogImage from "@/assets/catalog.png"
@@ -6,8 +7,10 @@ import { useComicsStore} from '@/stores/comicsStore';
 import type {Comics} from "@/interfaces/types";
 
 export default defineComponent({
+  //Data function that initializes components data
   data() {
     return {
+      //Initial properties
       imagePath: catalogImage,
       addComicsDialog: false,
       newComics: { id: 0, title: '', year: 0, publisher:'', author: '', imageUrl:'' } as Comics,
@@ -15,34 +18,39 @@ export default defineComponent({
       editedComics: { id: 0, title: '', year: 0, publisher:'', author: '', imageUrl:'' } as Comics,
     };
   },
+  //Register external component
   components:{
     Banner,
   },
+  //Computed property to get comics from store
   computed: {
     comics(): Comics[] {
       return useComicsStore().getComics;
     },
   },
+  //Methods section with various functions to interact with store and handle user actions
   methods: {
+    //Function to add new comics to store
     addComics() {
-      if (this.newComics.title && this.newComics.author && this.newComics.publisher) {
-        //Add the new comics using the store action
+      if (this.newComics.title && this.newComics.year && this.newComics.author && this.newComics.publisher && this.newComics.imageUrl) {
+        //Add new comics using store action
         useComicsStore().addComics({...this.newComics, id: Date.now()});
         //Clear the form and close the dialog
         this.newComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
         this.closeComicsDialog();
       } else {
         //Handle validation error
-        console.error('Title, author and publisher are required.');
+        console.error('All fields are required.');
       }
     },
+    //Function to initiate editing of a specific comics
     editComics(comicId: number) {
       this.editComicsDialog = true;
-      // Find the comic by ID using the store getter
+      //Finding comics by ID using store getter
       const comicsToEdit = useComicsStore().getComicById(comicId);
 
       if (comicsToEdit) {
-        // Open the edit comic dialog and pre-fill the form with the current comic data
+        //Open the edit comics dialog and pre-fill the form with current data
         this.editComicsDialog = true;
         this.editedComics = { ...comicsToEdit };
       } else {
@@ -50,20 +58,21 @@ export default defineComponent({
         console.error('Comics not found.');
       }
     },
+    // Function to save edited comics to the store
     saveEditedComics() {
       //Validate the edited data
-      if (this.editedComics.title && this.editedComics.author) {
-        //Update using the store action
+      if (this.editedComics.title && this.editedComics.year && this.editedComics.author && this.editedComics.publisher && this.editedComics.imageUrl) {
+        //Update using store action
         useComicsStore().updateComics(this.editedComics);
         //Close the dialog and reset the form
         this.closeComicsDialog();
       } else {
-        // Handle validation error (e.g., show an error message)
+        //Handle validation error
         console.error('Title and author are required.');
       }
     },
     deleteComics(id: number) {
-      //Delete using the store action
+      //Function to delete using store action
       useComicsStore().deleteComics(id);
     },
     closeComicsDialog() {
@@ -73,6 +82,7 @@ export default defineComponent({
       this.newComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
       this.editedComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
     },
+    //Function to navigate to detail view of specific comics
     goToDetails(id: number) {
       this.$router.push({name: 'details', params: {id}});
     }
@@ -83,6 +93,7 @@ export default defineComponent({
 <template>
   <Banner :imagePath="imagePath"></Banner>
   <v-container fluid style="position: relative; top:200px; ">
+    <!-- Button to add new comics -->
     <v-btn color="green" @click="addComicsDialog = true">Add Comics</v-btn>
     <v-spacer></v-spacer>
     <!-- Add comics dialog -->
@@ -152,7 +163,7 @@ export default defineComponent({
     </v-list>
     </v-card>
   </v-container>
-  <RouterView />
+
 </template>
 
 

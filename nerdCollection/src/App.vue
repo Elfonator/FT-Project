@@ -1,10 +1,11 @@
 <script lang="ts">
+//Importing necessary functions and components from Vue and external sources
 import {defineComponent} from "vue";
 import Navigation from "@/components/Navigation.vue"
 import Footer from "@/components/FooterComponent.vue";
-import {useTheme} from "vuetify";
 
 export default defineComponent({
+  //External components
   components: {Navigation, Footer}
 });
 </script>

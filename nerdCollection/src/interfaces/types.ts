@@ -1,3 +1,4 @@
+//Defining the structure of Comics object
 export interface Comics {
     "id": number,
     "title": string,
