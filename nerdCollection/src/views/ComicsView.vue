@@ -1,69 +1,175 @@
 <script lang="ts">
 //Importing necessary functions and components from Vue and external sources
-import {defineComponent } from 'vue';
+import {defineComponent} from "vue";
 import Banner from '@/components/BannerComponent.vue'
-import contactImage from "@/assets/contact.png"
+import catalogImage from "@/assets/catalog.png"
+import { useComicsStore} from '@/stores/comicsStore';
+import type {Comics} from "@/interfaces/types";
 
 export default defineComponent({
-  //Data function initializes the components data
+  //Data function that initializes components data
   data() {
     return {
-      //Initial data property for the contact image path
-      imagePath: contactImage
+      //Initial properties
+      imagePath: catalogImage,
+      addComicsDialog: false,
+      newComics: { id: 0, title: '', year: 0, publisher:'', author: '', imageUrl:'' } as Comics,
+      editComicsDialog: false,
+      editedComics: { id: 0, title: '', year: 0, publisher:'', author: '', imageUrl:'' } as Comics,
+    };
+  },
+  //Register external component
+  components:{
+    Banner,
+  },
+  //Computed property to get comics from store
+  computed: {
+    comics(): Comics[] {
+      return useComicsStore().getComics;
+    },
+  },
+  //Methods section with various functions to interact with store and handle user actions
+  methods: {
+    //Function to add new comics to store
+    addComics() {
+      if (this.newComics.title && this.newComics.year && this.newComics.author && this.newComics.publisher && this.newComics.imageUrl) {
+        //Add new comics using store action
+        useComicsStore().addComics({...this.newComics, id: Date.now()});
+        //Clear the form and close the dialog
+        this.newComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
+        this.closeComicsDialog();
+      } else {
+        //Handle validation error
+        console.error('All fields are required.');
+      }
+    },
+    //Function to initiate editing of a specific comics
+    editComics(comicId: number) {
+      this.editComicsDialog = true;
+      //Finding comics by ID using store getter
+      const comicsToEdit = useComicsStore().getComicById(comicId);
+
+      if (comicsToEdit) {
+        //Open the edit comics dialog and pre-fill the form with current data
+        this.editComicsDialog = true;
+        this.editedComics = { ...comicsToEdit };
+      } else {
+        //Handle error
+        console.error('Comics not found.');
+      }
+    },
+    // Function to save edited comics to the store
+    saveEditedComics() {
+      //Validate the edited data
+      if (this.editedComics.title && this.editedComics.year && this.editedComics.author && this.editedComics.publisher && this.editedComics.imageUrl) {
+        //Update using store action
+        useComicsStore().updateComics(this.editedComics);
+        //Close the dialog and reset the form
+        this.closeComicsDialog();
+      } else {
+        //Handle validation error
+        console.error('Title and author are required.');
+      }
+    },
+    deleteComics(id: number) {
+      //Function to delete using store action
+      useComicsStore().deleteComics(id);
+    },
+    closeComicsDialog() {
+      //Close dialog and reset the form
+      this.addComicsDialog = false;
+      this.editComicsDialog = false;
+      this.newComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
+      this.editedComics = {id: 0, title: '', year: 0, publisher: '', author: '', imageUrl: ''};
+    },
+    //Function to navigate to detail view of specific comics
+    goToDetails(id: number) {
+      this.$router.push({name: 'details', params: {id}});
     }
   },
-  //External component
-  components: {
-    Banner,
+  created() {
+    useComicsStore().loadComics();
   },
 });
 </script>
 
 <template>
-  <Banner :imagePath="imagePath" />
-  <RouterView />
-  <!-- Main content card with contact information and map -->
-  <v-card class="mx-auto my-12" width="800px" position="relative">
-    <v-row>
-    <v-col cols="5" class="align-center justify-center">
-      <v-card-item>
-    <img height="500px" src="@/assets/elfo.png" alt="portrait"/>
-      </v-card-item>
-    </v-col>
-    <v-col cols="5" class="align-center justify-center">
-    <v-card-item>
-      <v-card-title >Hi, I'm Elfo and I love comics!</v-card-title>
-      <v-divider class="mx-4 mb-1"></v-divider>
-      <v-card-subtitle>
-        <span class="me-1" style="font-weight: bold">Email: elfo.here@gmail.com</span>
-      </v-card-subtitle>
-      <v-card-subtitle>
-        <span class="me-1" style="font-weight: bold">Phone: +421 951 774 534</span>
-      </v-card-subtitle>
-    </v-card-item>
-      <!-- Embed Google Maps iframe -->
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10608.761996819381!2d18.096253192616757!3d48.33764359135594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476b39276af4af7b%3A0xa12d3f17de2ff66c!2sZobor!5e0!3m2!1ssk!2ssk!4v1706049759425!5m2!1ssk!2ssk"
-            width="600"
-            height="405"
-            style="border:0;"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-    </v-col>
-    </v-row>
-    <v-divider class="mx-4 mb-1"></v-divider>
+  <Banner :imagePath="imagePath"></Banner>
+  <v-container fluid style="position: relative; top: 50px; ">
+    <!-- Button to add new comics -->
+    <v-btn color="green" @click="addComicsDialog = true">Add Comics</v-btn>
+    <v-spacer></v-spacer>
+    <!-- Add comics dialog -->
+    <v-dialog v-model="addComicsDialog">
+      <v-card>
+        <v-card-title>Add Comics</v-card-title>
+        <v-card-text>
+          <v-text-field v-model="newComics.title" label="Title"></v-text-field>
+          <v-text-field v-model="newComics.year" label="Year"></v-text-field>
+          <v-text-field v-model="newComics.publisher" label="Publisher"></v-text-field>
+          <v-text-field v-model="newComics.author" label="Author"></v-text-field>
+          <v-text-field v-model="newComics.imageUrl" label="ImageURL"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="green" @click="addComics">Add</v-btn>
+          <v-btn @click="addComicsDialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- Display comics -->
+    <v-card>
+    <v-list class="overflow-hidden" >
+      <v-list-item v-if="comics.length">
+        <!-- Use v-row to create  each comics -->
+        <v-row v-for="comicsItem in comics" :key="comicsItem.id">
+          <v-col cols="1" class="align-center justify-center" @click="goToDetails(comicsItem.id)">
+            <img :src="comicsItem.imageUrl" alt="Comic Image" class="mr-2" height="80px"/>
+          </v-col>
+          <v-col cols="3" class="d-flex align-center justify-right" style="font-weight: bold" @click="goToDetails(comicsItem.id)">
+            {{ comicsItem.title }}
+          </v-col>
+          <v-col class="d-flex align-center justify-right">
+            {{ comicsItem.year }}
+          </v-col>
+          <v-col class="d-flex align-center justify-right">
+            {{ comicsItem.publisher }}
+          </v-col >
+          <v-col class="d-flex align-center justify-right">
+            {{ comicsItem.author }}
+          </v-col>
+          <v-col class="d-flex align-center justify-right">
+            <v-btn color="yellow" @click="editComics(comicsItem.id)">Edit</v-btn>
+            <v-btn color="red" @click="deleteComics(comicsItem.id)">Delete</v-btn>
+          </v-col>
+          <v-divider class="mx-4"></v-divider>
+        </v-row>
 
-    <!-- Display of the working hours -->
-    <v-card-title class="text-center">Working Hours</v-card-title>
-    <div class="d-flex justify-center">
-      <v-chip-group class="px-6">
-        <v-chip class="mx-2">Mon-Fri: 8:00AM - 16:30PM</v-chip>
-        <v-chip class="mx-2">Sat-Sun: 11:00AM - 18:00PM</v-chip>
-      </v-chip-group>
-    </div>
-    <v-divider class="mx-4 mb-1"></v-divider>
-  </v-card>
+        <!-- Edit comics dialog-->
+        <v-dialog v-model="editComicsDialog" max-width="500px">
+          <v-card>
+            <v-card-title>Edit Comic</v-card-title>
+            <v-card-text>
+              <v-text-field v-model="editedComics.title" label="Title"></v-text-field>
+              <v-text-field v-model="editedComics.year" label="Year"></v-text-field>
+              <v-text-field v-model="editedComics.publisher" label="Publisher"></v-text-field>
+              <v-text-field v-model="editedComics.author" label="Author"></v-text-field>
+              <v-text-field v-model="editedComics.imageUrl" label="ImageURL"></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="green" @click="saveEditedComics">Save</v-btn>
+              <v-btn @click="closeComicsDialog">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-list-item>
+      <v-alert v-else>No comics available.</v-alert>
+    </v-list>
+    </v-card>
+  </v-container>
+
 </template>
+
+
 <style scoped>
 
 </style>
