@@ -23,7 +23,7 @@ export default defineComponent({
   <Banner :imagePath="imagePath" />
   <RouterView />
   <!-- Main content card with contact information and map -->
-  <v-card class="mx-auto my-12" width="800px" position="relative" style="top:200px;">
+  <v-card class="mx-auto my-12" width="800px" position="relative">
     <v-row>
     <v-col cols="5" class="align-center justify-center">
       <v-card-item>
