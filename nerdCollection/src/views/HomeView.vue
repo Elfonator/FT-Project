@@ -24,8 +24,6 @@ export default defineComponent({
 
 <template>
   <Banner :imagePath="imagePath" />
-  <v-divider class="mx-4 mb-1"></v-divider>
-  <v-spacer></v-spacer>
   <Carousel />
 
 </template>
