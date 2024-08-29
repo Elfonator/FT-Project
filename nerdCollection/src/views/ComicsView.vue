@@ -95,7 +95,7 @@ export default defineComponent({
 
 <template>
   <Banner :imagePath="imagePath"></Banner>
-  <v-container fluid style="position: relative; top:200px; ">
+  <v-container fluid style="position: relative; top: 50px; ">
     <!-- Button to add new comics -->
     <v-btn color="green" @click="addComicsDialog = true">Add Comics</v-btn>
     <v-spacer></v-spacer>
