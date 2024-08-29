@@ -1,4 +1,4 @@
-Vue 3 Project.
+Vue 3 (Composition API) Project.
 
 Technologies Used
 - Vue 3
